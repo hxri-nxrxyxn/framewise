@@ -39,3 +39,25 @@ def capture_pose_data(output_csv='pose_data.csv'):
     
     cap.release()
     cv2.destroyAllWindows()
+    def train_model(csv_file='pose_data.csv', model_save_path='pose_model.h5'):
+    data = np.loadtxt(csv_file, delimiter=',', skiprows=1)
+    X, y = data[:, :-1], data[:, -1]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    model = Sequential([
+        Dense(128, activation='relu', input_shape=(X_train.shape[1],)),
+        Dropout(0.3),
+        Dense(64, activation='relu'),
+        Dropout(0.3),
+        Dense(32, activation='relu'),
+        Dense(len(np.unique(y)), activation='softmax')
+    ])
+    
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_test, y_test))
+    model.save(model_save_path)
+    print(f'Model saved at {model_save_path}')
+
+if __name__ == "__main__":
+    capture_pose_data()
+    train_model()
