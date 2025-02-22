@@ -7,7 +7,7 @@ import mediapipe as mp
 model = tf.keras.models.load_model("virtual_cameraman_model.h5")
 
 # Categories used during training
-CATEGORIES = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile", "no_smile"]
+CATEGORIES = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile"]
 
 # Initialize MediaPipe Face Detection
 mp_face_detection = mp.solutions.face_detection
@@ -15,7 +15,6 @@ face_detection = mp_face_detection.FaceDetection(min_detection_confidence=0.5)
 
 def preprocess_frame(face_img):
     """Resize and normalize the face image for model prediction."""
-    # Ensure the face is in the expected color format (BGR or RGB based on your training)
     face_resized = cv2.resize(face_img, (64, 64))
     face_normalized = face_resized / 255.0
     return np.expand_dims(face_normalized, axis=0)
@@ -28,8 +27,7 @@ def give_feedback(pred_label):
         "neutral": "Maintain a confident expression.",
         "chin_up": "Lower your chin slightly for a better angle.",
         "chin_down": "Raise your chin slightly for a natural look.",
-        "smile": "Keep that smile!",
-        "no_smile": "Try adding a slight smile."
+        "smile": "Smile some more!",
     }
     return feedback.get(pred_label, "")
 
@@ -59,7 +57,6 @@ def main():
                 box_width = int(bboxC.width * w)
                 box_height = int(bboxC.height * h)
 
-                # Ensure the bounding box is within the frame
                 x = max(0, x)
                 y = max(0, y)
                 if x + box_width > w:
@@ -67,9 +64,9 @@ def main():
                 if y + box_height > h:
                     box_height = h - y
 
-                # Extract the face region
+                # Extract the face region for processing
                 face_img = frame[y:y + box_height, x:x + box_width]
-                # Skip if the detected face is too small
+                # Skip frame if the detected face is too small
                 if face_img.size == 0 or box_width < 20 or box_height < 20:
                     continue
 
