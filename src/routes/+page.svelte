@@ -1,13 +1,20 @@
 <script>
-  import { handleBackButton, checkUser, logout } from "../script";
-
-  handleBackButton("/");
-  const user = checkUser();
-  console.log(user);
+    import { handleBackButton, checkUser, logout } from "../script";
+    handleBackButton("/");
 </script>
 
-<h1>this is my home</h1>
-<a href="/login">login</a>
-<a href="/signup">signup</a>
-<a href="/camera">camera</a>
-<button onclick={logout}>logout</button>
+<main>
+    <nav>
+        <p>WEBSOCKET <span>CONNECTED</span></p>
+        <img src="#" alt="" />
+    </nav>
+</main>
+
+<style>
+    nav {
+        background: red;
+    }
+    nav img {
+        height: 1rem;
+    }
+</style>
