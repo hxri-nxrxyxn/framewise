@@ -29,6 +29,7 @@
         </div>
     </div>
     <p class="tagline">made with love in India</p>
+    <img src="/photoshoot.svg" alt="" class="cover" />
 </main>
 
 <style>
@@ -82,5 +83,9 @@
         font-family: Baskervville;
         font-style: italic;
         font-weight: 100;
+    }
+    img.cover {
+        width: 100vw;
+        padding: 2rem 0;
     }
 </style>
