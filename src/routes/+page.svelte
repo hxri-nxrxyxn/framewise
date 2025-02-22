@@ -3,12 +3,11 @@
     handleBackButton("/");
 </script>
 
+<nav>
+    <p>WEBSOCKET <b>CONNECTED</b></p>
+    <img src="/lock.svg" alt="hey" />
+</nav>
 <main>
-    <nav>
-        <p>WEBSOCKET <b>CONNECTED</b></p>
-        <img src="/lock.svg" alt="hey" />
-    </nav>
-
     <section>
         <!-- svelte-ignore a11y_distracting_elements -->
         <marquee scrollamount="12" behavior="scroll">
@@ -45,25 +44,11 @@
     section h1.marquee {
         color: var(--color-grey);
     }
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-        margin: 0 10vw;
-    }
-    .button {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--color-border);
-        width: 25vw;
-        text-align: center;
-        position: relative;
-        font-weight: 600;
-    }
     .button:first-child {
         background: var(--color-primary);
         color: white;
     }
     .button:last-child {
-        color: var(--color-grey);
         margin-left: 10%;
     }
     .button span {
@@ -83,9 +68,5 @@
         font-family: Baskervville;
         font-style: italic;
         font-weight: 100;
-    }
-    img.cover {
-        width: 100vw;
-        padding: 2rem 0;
     }
 </style>
