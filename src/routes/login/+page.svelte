@@ -32,7 +32,9 @@
 
     <div class="buttons">
         <div class="button" {onclick}>LOGIN</div>
-        <div class="button" {onclick}>SIGNUP</div>
+        <div class="button">
+            <a href="/signup"> SIGNUP </a>
+        </div>
     </div>
 </main>
 

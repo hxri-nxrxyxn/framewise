@@ -7,19 +7,19 @@
     <p>WEBSOCKET <b>CONNECTED</b></p>
     <img src="/lock.svg" alt="hey" />
 </nav>
+<section>
+    <!-- svelte-ignore a11y_distracting_elements -->
+    <marquee scrollamount="12" behavior="scroll">
+        <h1 class="marquee">PROFESSIONAL SHOTS</h1>
+    </marquee>
+    <!-- svelte-ignore a11y_distracting_elements -->
+    <h1>FRAMEWISE</h1>
+    <!-- svelte-ignore a11y_distracting_elements -->
+    <marquee scrollamount="10" behavior="scroll">
+        <h1 class="marquee">SHOTS THAT MAKE THE MEMORIES</h1>
+    </marquee>
+</section>
 <main>
-    <section>
-        <!-- svelte-ignore a11y_distracting_elements -->
-        <marquee scrollamount="12" behavior="scroll">
-            <h1 class="marquee">PROFESSIONAL SHOTS</h1>
-        </marquee>
-        <!-- svelte-ignore a11y_distracting_elements -->
-        <h1>FRAMEWISE</h1>
-        <!-- svelte-ignore a11y_distracting_elements -->
-        <marquee scrollamount="10" behavior="scroll">
-            <h1 class="marquee">SHOTS THAT MAKE THE MEMORIES</h1>
-        </marquee>
-    </section>
     <div class="buttons">
         <div class="button">TRY</div>
         <div class="button">
