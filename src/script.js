@@ -1,6 +1,9 @@
 import { Storage } from "@capacitor/storage";
 import { App } from "@capacitor/app";
 const baseUrl = "https://api.laddu.cc/api/v1";
+const socketUrl = "wss://api.laddu.cc/api/v1";
+import { goto } from '$app/navigation';
+
 
 async function setToken(token) {
     await Storage.set({
@@ -17,7 +20,7 @@ function handleBackButton(fallbackUrl) {
         const prevPage = sessionStorage.getItem("fallbackPage");
 
         if (window.location.href !== "https://localhost/login") {
-            window.location.href = prevPage;
+            goto(prevPage, { replaceState: true });
         } else {
             App.exitApp();
         }
@@ -30,7 +33,7 @@ async function checkUser() {
   const { value }  = await Storage.get({ key: "token" });
   console.log(value);
   if (!value) {
-    window.location.href = "/login";
+    goto("login", { replaceState: true });
     return;
   }
   const response = await fetch(`${baseUrl}/verify`, {
@@ -44,7 +47,7 @@ async function checkUser() {
   if (!response.ok) {
     alert(res.message);
     await logout();
-    window.location.href = "/login";
+    goto("/login", { replaceState: true })
     return;
   }
   const id = res.id;
@@ -65,7 +68,7 @@ async function checkUser() {
 async function logout() {
   try {
     await Storage.remove({ key: "token" });
-    location.href = "/login";
+    goto("/login", { replaceState: true })
   } catch (error) {
     console.error("Error:", error);
   }
@@ -87,7 +90,7 @@ async function login(data) {
       return;
     }
     await setToken(res.token);
-    window.location.href = "/";
+    goto("/", { replaceState: true })
   } catch (error) {
     console.log(error);
   }
@@ -109,9 +112,33 @@ async function signup(data) {
       return;
     }
     await setToken(res.token);
-    window.location.href = "/";
+    goto("/", { replaceState: true })
   } catch (error) {
     console.log(error);
+  }
+}
+
+function startWebsocket() {
+  try{
+    let socket = new WebSocket(socketUrl);
+    socket.onopen = function (e) {
+      alert("[open] Connection established");
+  
+      socket.onclose = function (event) {
+        if (event.wasClean) {
+          alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        } else {
+          alert("[close] Connection died");
+        }
+      };
+  
+      socket.onerror = function (error) {
+        alert(`[error] ${error.message}`);
+      };
+    }
+  }
+  catch(error){
+    alert("Error accessing WebSocket " + error);
   }
 }
 
