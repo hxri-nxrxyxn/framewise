@@ -5,16 +5,87 @@
 
 <main>
     <nav>
-        <p>WEBSOCKET <span>CONNECTED</span></p>
-        <img src="#" alt="" />
+        <p>WEBSOCKET <b>CONNECTED</b></p>
+        <img src="/lock.svg" alt="hey" />
     </nav>
+
+    <section>
+        <!-- svelte-ignore a11y_distracting_elements -->
+        <marquee scrollamount="12" behavior="scroll">
+            <h1 class="marquee">PROFESSIONAL SHOTS</h1>
+        </marquee>
+        <!-- svelte-ignore a11y_distracting_elements -->
+        <h1>FRAMEWISE</h1>
+        <!-- svelte-ignore a11y_distracting_elements -->
+        <marquee scrollamount="10" behavior="scroll">
+            <h1 class="marquee">SHOTS THAT MAKE THE MEMORIES</h1>
+        </marquee>
+    </section>
+    <div class="buttons">
+        <div class="button">TRY</div>
+        <div class="button">
+            LOGIN
+            <span>FX</span>
+        </div>
+    </div>
+    <p class="tagline">made with love in India</p>
+    <img src="/photoshoot.svg" alt="" class="cover" />
 </main>
 
 <style>
-    nav {
-        background: red;
+    section {
+        padding: 5rem 0;
     }
-    nav img {
-        height: 1rem;
+    section h1 {
+        font-style: italic;
+        text-align: center;
+        font-size: 3.5rem;
+        line-height: 1;
+    }
+    section h1.marquee {
+        color: var(--color-grey);
+    }
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 10vw;
+    }
+    .button {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--color-border);
+        width: 25vw;
+        text-align: center;
+        position: relative;
+        font-weight: 600;
+    }
+    .button:first-child {
+        background: var(--color-primary);
+        color: white;
+    }
+    .button:last-child {
+        color: var(--color-grey);
+        margin-left: 10%;
+    }
+    .button span {
+        position: absolute;
+        right: -0.75rem;
+        top: -0.5rem;
+        transform: rotate(3deg);
+        background: var(--color-secondary);
+        padding: 0.15rem 1rem;
+        font-weight: 600;
+        font-size: 0.75rem;
+        border: 1px solid var(--color-border);
+    }
+    p.tagline {
+        text-align: center;
+        margin: 2rem 0;
+        font-family: Baskervville;
+        font-style: italic;
+        font-weight: 100;
+    }
+    img.cover {
+        width: 100vw;
+        padding: 2rem 0;
     }
 </style>
