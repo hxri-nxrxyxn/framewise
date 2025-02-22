@@ -9,7 +9,7 @@ from tensorflow.keras import layers
 # settings for image
 IMG_SIZE = 64  # all images resized to 64x64
 DATA_DIR = "data"  # directory of collected data
-CATEGORIES = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile", "no_smile"]
+CATEGORIES = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile"]
 
 # images and labels loaded
 def load_data():
@@ -36,7 +36,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 print(f"Dataset Loaded: {len(X_train)} training samples, {len(X_test)} testing samples")
 
-# CNN Model definition
+# CNN Model being defined
 def build_model():
     model = keras.Sequential([
         layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 3)),
@@ -62,7 +62,7 @@ model = build_model()
 model.summary()
 
 # model trained
-history = model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test), batch_size=32)
+history = model.fit(X_train, y_train, epochs=20, validation_data=(X_test, y_test), batch_size=32)
 
 # model saved
 model.save("virtual_cameraman_model.h5")
