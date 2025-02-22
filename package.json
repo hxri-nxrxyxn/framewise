@@ -7,7 +7,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"and": "npm run build && npx cap sync && npm run android"
+		"and": "npm run build && npx cap sync && npx cap run android"
 	},
 	"devDependencies": {
 		"@capacitor/cli": "^7.0.1",
@@ -19,7 +19,9 @@
 	},
 	"dependencies": {
 		"@capacitor/android": "^7.0.1",
+		"@capacitor/app": "^7.0.0",
 		"@capacitor/core": "^7.0.1",
+		"@capacitor/storage": "^1.2.5",
 		"@sveltejs/adapter-static": "^3.0.8"
 	}
 }
