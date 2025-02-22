@@ -36,8 +36,9 @@ def capture_pose_data(output_csv='pose_data.csv'):
                 
                 label = input("Enter label for current pose: ")
                 writer.writerow(keypoints + [label])
+                mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
             
-            mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+            
             cv2.imshow('Pose Detection', frame)
             
             if cv2.waitKey(10) & 0xFF == ord('q'):
