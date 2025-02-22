@@ -18,11 +18,11 @@
 </nav>
 <main>
     <h1 class="head">WELCOME</h1>
-    <img src="/welcome.svg" alt="" class="cover" />
+    <img src="/login.svg" alt="" class="cover" />
     <div class="form">
         <div class="form__line">
-            <label>NAME</label>
-            <input type="text" placeholder="Hari Narayan" bind:value={email} />
+            <label>EMAIL</label>
+            <input type="text" placeholder="hari@laddu.cc" bind:value={email} />
         </div>
         <div class="form__line">
             <label>PASSWORD</label>
