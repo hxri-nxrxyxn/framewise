@@ -123,3 +123,22 @@ func GetUser(db *gorm.DB) func(*fiber.Ctx) error {
 		})
 	}
 }
+
+func GetUsers(db *gorm.DB) func(*fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
+		users := new([]models.User)
+
+		err := db.Find(users).Error
+		if err != nil {
+			return c.Status(500).JSON(fiber.Map{
+				"message": "Could not retrieve users",
+				"error":   err.Error(),
+			})
+		}
+
+		return c.Status(200).JSON(fiber.Map{
+			"message": "Retrieved users",
+			"data":    users,
+		})
+	}
+}
