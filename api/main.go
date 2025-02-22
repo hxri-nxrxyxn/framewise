@@ -5,6 +5,7 @@ import (
 
 	"github.com/framewise/database"
 	"github.com/framewise/models"
+	"github.com/framewise/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -28,6 +29,8 @@ func main() {
 	})
 
 	models.MigrateUser(db)
+
+	routes.UserRoutes(db, app)
 
 	app.Listen(":8080")
 }
