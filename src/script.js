@@ -1,11 +1,12 @@
 import { Storage } from "@capacitor/storage";
 import { App } from "@capacitor/app";
 const baseUrl = "https://api.laddu.cc/api/v1";
-const socketUrl = "wss://api.laddu.cc/api/v1";
+const socketUrl = "wss://api.laddu.cc/ws";
 import { goto } from '$app/navigation';
 let videoElement = null;
 let canvasElement = null;
 let ctx = null;
+let socket = null;
 
 
 async function setToken(token) {
@@ -123,7 +124,7 @@ async function signup(data) {
 
 function startWebsocket() {
   try{
-    let socket = new WebSocket(socketUrl);
+    socket = new WebSocket(socketUrl);
     socket.onopen = function (e) {
       alert("[open] Connection established");
   
@@ -161,13 +162,18 @@ async function startCamera() {
   try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       videoElement.srcObject = stream;
+
+      canvasElement = document.createElement("canvas");
+        ctx = canvasElement.getContext("2d");
   } catch (error) {
       console.error("Error accessing camera:", error);
   }
 }
 
 async function captureFrame() {
-  if (!videoElement || !canvasElement || !ctx) return null;
+  if (!videoElement || !canvasElement || !ctx) {
+    return null;
+  }
 
   canvasElement.width = videoElement.videoWidth;
   canvasElement.height = videoElement.videoHeight;
@@ -175,14 +181,15 @@ async function captureFrame() {
   ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
 
   // Convert to Base64
-  return canvasElement.toDataURL("image/jpeg"); // or "image/png"
+  return canvasElement.toDataURL("image/jpeg",0.5); // or "image/png"
 }
 
-function sendToBackend(data) {
-  if (ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify({ frame: base64String }));
+function sendToBackend(base64String) {
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send(base64String);
 } else {
-    console.error("WebSocket is not open");
+    alert("Socket not connected");
+    goto("/", { replaceState: true }) 
 }
 }
 
