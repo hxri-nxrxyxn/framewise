@@ -84,7 +84,7 @@ Please ensure your code follows the project's coding style and includes appropri
 
 ## 📄 License
 
-This project is licensed under the [Choose your license, for example, MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
 
 ## Built for FOSSHack 2025  
 
