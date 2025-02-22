@@ -26,9 +26,9 @@ def give_feedback(pred_label):
         "happy": "Great smile! Keep it up.",
         "sad": "Try smiling a bit more!",
         "neutral": "Maintain a confident expression.",
-        "chin_up": "Lower your chin slightly for a better angle.",
-        "chin_down": "Raise your chin slightly for a natural look.",
-        "smile": "Show a full smile for a better shot.",
+        "chin_up": "Raise your chin slightly for a natural look.",
+        "chin_down": "Lower your chin slightly for a better angle.",
+        "smile": "Keep that smile!",
         "no_smile": "Try adding a slight smile."
     }
     return feedback.get(pred_label, "")
