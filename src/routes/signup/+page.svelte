@@ -11,6 +11,8 @@
     <input type="text" bind:value={username} />
     <input type="password" bind:value={password} />
     <button {onclick}>signup</button>
+    <a href="/">home</a>
+    <a href="/login">login</a>
 </main>
 
 <style>
