@@ -1,6 +1,7 @@
 import { Storage } from "@capacitor/storage";
 import { App } from "@capacitor/app";
 const baseUrl = "https://api.laddu.cc/api/v1";
+const socketUrl = "wss://api.laddu.cc/api/v1";
 
 async function setToken(token) {
     await Storage.set({
@@ -112,6 +113,30 @@ async function signup(data) {
     window.location.href = "/";
   } catch (error) {
     console.log(error);
+  }
+}
+
+function startWebsocket() {
+  try{
+    let socket = new WebSocket(socketUrl);
+    socket.onopen = function (e) {
+      alert("[open] Connection established");
+  
+      socket.onclose = function (event) {
+        if (event.wasClean) {
+          alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        } else {
+          alert("[close] Connection died");
+        }
+      };
+  
+      socket.onerror = function (error) {
+        alert(`[error] ${error.message}`);
+      };
+    }
+  }
+  catch(error){
+    alert("Error accessing WebSocket " + error);
   }
 }
 
