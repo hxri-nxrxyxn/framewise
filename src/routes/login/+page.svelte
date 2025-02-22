@@ -12,13 +12,30 @@
     };
 </script>
 
+<nav>
+    <p>FRAMEWISE</p>
+    <img src="/lock.svg" alt="hey" />
+</nav>
 <main>
-    <h1>login</h1>
-    <input type="text" bind:value={email} />
-    <input type="password" bind:value={password} />
-    <button {onclick}>login</button>
-    <a href="/">home</a>
-    <a href="/signup">signup</a>
+    <h1 class="head">WELCOME</h1>
+    <img src="/login.svg" alt="" class="cover" />
+    <div class="form">
+        <div class="form__line">
+            <label>EMAIL</label>
+            <input type="text" placeholder="hari@laddu.cc" bind:value={email} />
+        </div>
+        <div class="form__line">
+            <label>PASSWORD</label>
+            <input type="password" bind:value={password} />
+        </div>
+    </div>
+
+    <div class="buttons">
+        <div class="button button--orange" {onclick}>LOGIN</div>
+        <a href="/signup">
+            <div class="button">SIGNUP</div>
+        </a>
+    </div>
 </main>
 
 <style>
