@@ -1,8 +1,9 @@
 <script>
-  import { handleBackButton } from "../script";
-  
-    handleBackButton("/");
-    
+  import { handleBackButton, checkUser } from "../script";
+
+  handleBackButton("/");
+  const user = checkUser();
+  console.log(user);
 </script>
 
 <h1>this is my home</h1>
