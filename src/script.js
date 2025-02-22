@@ -3,6 +3,9 @@ import { App } from "@capacitor/app";
 const baseUrl = "https://api.laddu.cc/api/v1";
 const socketUrl = "wss://api.laddu.cc/api/v1";
 import { goto } from '$app/navigation';
+let videoElement = null;
+let canvasElement = null;
+let ctx = null;
 
 
 async function setToken(token) {
@@ -140,6 +143,69 @@ function startWebsocket() {
   catch(error){
     alert("Error accessing WebSocket " + error);
   }
+
+
 }
 
-export { handleBackButton , checkUser, logout, login, signup };
+async function startCamera() {
+
+  if (videoElement) return; 
+
+  videoElement = document.createElement("video");
+  videoElement.autoplay = true;
+  videoElement.playsInline = true; // Ensure iOS compatibility
+  videoElement.style.width = "100%"; // Adjust size as needed
+
+  document.body.appendChild(videoElement); // Add to page
+
+  try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoElement.srcObject = stream;
+  } catch (error) {
+      console.error("Error accessing camera:", error);
+  }
+}
+
+async function captureFrame() {
+  if (!videoElement || !canvasElement || !ctx) return null;
+
+  canvasElement.width = videoElement.videoWidth;
+  canvasElement.height = videoElement.videoHeight;
+
+  ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+  // Convert to Base64
+  return canvasElement.toDataURL("image/jpeg"); // or "image/png"
+}
+
+function sendToBackend(data) {
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ frame: base64String }));
+} else {
+    console.error("WebSocket is not open");
+}
+}
+
+function stopCamera() {
+  if (stream) {
+      stream.getTracks().forEach(track => track.stop()); // Stop all camera tracks
+  }
+
+  if (videoElement) {
+      videoElement.remove(); // Remove the video from the page
+      videoElement = null; // Reset variable
+      stream = null; // Reset stream
+  }
+}
+
+function cameraBack() {
+  if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+
+  App.addListener("backButton", () => {
+      const prevPage = sessionStorage.getItem("fallbackPage");
+    stopCamera();
+  });
+} else {
+}}
+
+export { handleBackButton , checkUser, logout, login, signup, startWebsocket, startCamera, captureFrame, sendToBackend, cameraBack, stopCamera };
