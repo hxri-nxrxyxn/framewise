@@ -1,5 +1,5 @@
 <script>
-    import { handleBackButton, checkUser, logout } from "../script";
+    import { handleBackButton, checkUser, logout } from "../../script";
     handleBackButton("/");
 </script>
 
@@ -22,13 +22,7 @@
 <main>
     <div class="buttons">
         <a href="/camera">
-            <div class="button">TRY</div>
-        </a>
-        <a href="/login">
-            <div class="button">
-                LOGIN
-                <span>FX</span>
-            </div>
+            <div class="button">CONTINUE</div>
         </a>
     </div>
     <p class="tagline">made with love in India</p>
@@ -37,7 +31,7 @@
 
 <style>
     section {
-        padding: 3rem 0;
+        padding: 5rem 0;
     }
     section h1 {
         font-style: italic;
@@ -48,20 +42,13 @@
     section h1.marquee {
         color: var(--color-grey);
     }
+    .buttons {
+        justify-content: center;
+    }
     .button:first-child {
         background: var(--color-primary);
         color: white;
-    }
-    .button span {
-        position: absolute;
-        right: -0.75rem;
-        top: -0.5rem;
-        transform: rotate(3deg);
-        background: var(--color-secondary);
-        padding: 0.15rem 1rem;
-        font-weight: 600;
-        font-size: 0.75rem;
-        border: 1px solid var(--color-border);
+        width: 100%;
     }
     p.tagline {
         text-align: center;

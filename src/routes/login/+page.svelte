@@ -31,27 +31,12 @@
     </div>
 
     <div class="buttons">
-        <div class="button" {onclick}>LOGIN</div>
-        <div class="button">
-            <a href="/signup"> SIGNUP </a>
-        </div>
+        <div class="button button--orange" {onclick}>LOGIN</div>
+        <a href="/signup">
+            <div class="button">SIGNUP</div>
+        </a>
     </div>
 </main>
 
 <style>
-    .buttons {
-        width: calc(100vw - 4rem);
-        margin: 2rem 0;
-        margin-top: 3rem;
-    }
-    .button {
-        width: 50%;
-    }
-    .button:last-child {
-        margin-left: 1rem;
-    }
-    .button:first-child {
-        background: var(--color-primary);
-        color: white;
-    }
 </style>
