@@ -16,7 +16,7 @@ function handleBackButton(fallbackUrl) {
     App.addListener("backButton", () => {
         const prevPage = sessionStorage.getItem("fallbackPage");
 
-        if (window.location.href !== "https://localhost/") {
+        if (window.location.href !== "https://localhost/login") {
             window.location.href = prevPage;
         } else {
             App.exitApp();
@@ -71,4 +71,26 @@ async function logout() {
   }
 }
 
-export { handleBackButton , checkUser, logout };
+async function login(data) {
+  try {
+    console.log(data);
+    const response = await fetch(`${baseUrl}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const res = await response.json();
+    if (!response.ok) {
+      alert(res.message);
+      return;
+    }
+    await setToken(res.token);
+    navigate("/dashboard", { replace: true });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export { handleBackButton , checkUser, logout, login };
