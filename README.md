@@ -1,38 +1,18 @@
-# sv
+# FrameWise
+An AI-powered photography assistant that provides real-time voice-guided posing instructions and automated capturing using a smartphone’s back camera, ensuring well-composed shots without a photographer.
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+![Screenshot 2025-02-22 at 10 02 03 AM](https://github.com/user-attachments/assets/ce47f354-142b-495b-aa38-c1a1a363c811)
 
-## Creating a project
+FrameWise is an AI-powered photography assistant that provides real-time pose guidance and automated capturing using a smartphone’s back camera. The system leverages computer vision and machine learning to analyze user posture, providing voice-guided adjustments for optimized framing before capturing an image.
 
-If you're seeing this, you've probably already done this step. Congrats!
+The mobile application is developed using CapacitorJS and Svelte, ensuring a lightweight, cross-platform experience. Camera handling is managed via MediaStream APIs (Web). A companion app, synchronized using d WebSockets for real-time live preview and setting adjustments, enables remote control over the same network.
 
-```bash
-# create a new project in the current directory
-npx sv create
+AI processing follows a hybrid local-cloud strategy for optimal performance. On-device processing utilizes MediaPipe for pose estimation, MoveNet for body tracking, and Android Text-to-Speech (TTS) for voice feedback. For lower-end devices, the system dynamically switches to cloud-based AI processing, executed via a FastAPI backend on a GPU server, requiring user authentication.
 
-# create a new project in my-app
-npx sv create my-app
-```
+The backend, implemented in Go, manages application logic, with PostgreSQL for handling user data, preferences, and authentication. A built-in benchmarking system evaluates device capabilities, automatically toggling between local and cloud-based AI for efficiency.
 
-## Developing
+FrameWise ensures low-latency, AI-optimized photography automation, making it ideal for solo users, content creators, and professionals needing high-quality, self-directed shots without external assistance.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+[FOSSHack Project](https://fossunited.org/hack/fosshack25/p/8ookaq60g0)
 
-```bash
-npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
