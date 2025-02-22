@@ -43,6 +43,7 @@ async function checkUser() {
   const res = await response.json();
   if (!response.ok) {
     alert(res.message);
+    await logout();
     window.location.href = "/login";
     return;
   }
@@ -61,4 +62,13 @@ async function checkUser() {
   return res2.data;
 }
 
-export { handleBackButton , checkUser };
+async function logout() {
+  try {
+    await Storage.remove({ key: "token" });
+    location.href = "/login";
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+export { handleBackButton , checkUser, logout };

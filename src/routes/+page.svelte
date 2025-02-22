@@ -1,6 +1,6 @@
 <script>
-  import { handleBackButton, checkUser } from "../script";
-
+  import { handleBackButton, checkUser, logout } from "../script";
+    
   handleBackButton("/");
   const user = checkUser();
   console.log(user);
@@ -9,3 +9,4 @@
 <h1>this is my home</h1>
 <a href="/login">login</a>
 <a href="/signup">signup</a>
+<button onclick={logout}>logout</button>
