@@ -100,6 +100,7 @@
     .meter {
         display: flex;
         justify-content: space-between;
+        background: white;
     }
     p.meter__pill {
         display: block;
@@ -115,13 +116,11 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        background: #eee;
+        background: #fff;
+        border-top: 1px solid var(--color-border-light);
         min-height: 10vh;
         display: flex;
         justify-content: space-between;
-    }
-    .shot > div {
-        width: 50%;
     }
     .shot__info {
         padding: 2rem;
@@ -137,6 +136,7 @@
     }
     .shot__capture {
         display: flex;
+        width: 40%;
         justify-content: center;
         align-items: center;
     }
@@ -156,5 +156,17 @@
         height: 80%;
         border-radius: 50%;
         border: 1px solid var(--color-border-light);
+        animation: breathe 2s ease-in-out infinite; /* Adjust timing as needed */
+    }
+    @keyframes breathe {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(0.9); /* Slightly smaller */
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 </style>

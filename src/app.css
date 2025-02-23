@@ -116,12 +116,13 @@ img.cover {
 .button--orange {
     background: var(--color-primary);
     color: white !important;
+    animation: attractButton 1s ease-in-out;
+    animation-delay: 3s;
 }
 
 .animate--fx {
     animation: fx 2s ease-out forwards;
 }
-
 .animate--moveDown {
     animation: moveDown 0.5s ease-out forwards;
 }
@@ -144,5 +145,23 @@ img.cover {
     }
     100% {
         transform: translateY(0);
+    }
+}
+
+@keyframes attractButton {
+    0%,
+    100% {
+        transform: scale(1) translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    25% {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        transform: scale(1.05) translateX(2px) translateY(-2px) rotate(1deg);
+    }
+    75% {
+        transform: scale(1.05) translateX(-2px) translateY(-2px) rotate(-1deg);
     }
 }

@@ -40,7 +40,7 @@
             </div>
         </a>
     </div>
-    <p class="tagline">Made with love in <span>India</span></p>
+    <p class="tagline">Made with love in India <span>❤️</span></p>
     <img src="/photoshoot.svg" alt="" class="cover" />
 </main>
 
@@ -68,11 +68,16 @@
         border: 1px solid var(--color-border);
         color: var(--color-grey);
     }
+    .button--orange {
+    }
     p.tagline {
         text-align: center;
         margin: 2rem 0;
         font-family: Baskervville;
         font-style: italic;
         font-weight: 100;
+    }
+    p.tagline span {
+        font-style: initial;
     }
 </style>
