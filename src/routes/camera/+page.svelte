@@ -95,7 +95,6 @@
     .polaroid__image {
         margin: 2rem;
         height: 70%;
-        background: var(--color-primary);
     }
     .meter {
         display: flex;

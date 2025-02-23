@@ -128,24 +128,24 @@ function startWebsocket() {
   try {
     socket = new WebSocket(socketUrl);
     socket.onopen = function (e) {
-      alert("[open] Connection established");
+      console.log("[open] Connection established");
 
       socket.onmessage = (event) => {
-        alert("Received from server:"+ JSON.stringify(event.data)); // Receive message from server
-    };
+        console.log(event);
+      };
 
       socket.onclose = function (event) {
         if (event.wasClean) {
-          alert(
+          console.log(
             `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,
           );
         } else {
-          alert("[close] Connection died");
+          console.log("[close] Connection died");
         }
       };
 
       socket.onerror = function (error) {
-        alert(`[error] ${error.message}`);
+        console.log(`[error] ${error.message}`);
       };
     };
   } catch (error) {
@@ -162,7 +162,7 @@ async function startCamera() {
   videoElement.style.width = "100%"; // Adjust size as needed
   videoElement.style.height = "100%"; // Adjust size as needed
 
-  document.body.appendChild(videoElement); // Add to page
+  document.querySelector(".polaroid__image").appendChild(videoElement); // Add to page
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -192,16 +192,12 @@ async function captureFrame() {
 function sendToBackend(base64String) {
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(base64String);
-  } else {
-    alert("Socket not connected");
-    goto("/", { replaceState: true });
-    return false;
   }
 }
 
 function stopCamera() {
   if (stream) {
-    stream.getTracks().forEach((track) => track.stop()); // Stop all camera tracks
+    stream.getTracks().forEach((track) => track.stop()); // Stop all amera tracks
   }
 
   if (videoElement) {
