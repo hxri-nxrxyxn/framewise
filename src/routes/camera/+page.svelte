@@ -29,7 +29,7 @@
     <section>
         <label>PREVIEW</label>
         <div class="polaroid">
-            <div class="polaroid__image" id="image"></div>
+            <template class="polaroid__image" id="image"></template>
         </div>
     </section>
     <section>
