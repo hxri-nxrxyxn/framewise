@@ -25,7 +25,7 @@
 
 <Nav message="WEBSOCKET" bold="READY" />
 <main>
-    <h1 class="head">LOADING</h1>
+    <h1 class="head" id="message">LOADING</h1>
     <section>
         <label>PREVIEW</label>
         <div class="polaroid">

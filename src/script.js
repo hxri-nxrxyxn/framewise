@@ -129,9 +129,13 @@ function startWebsocket() {
     socket = new WebSocket(socketUrl);
     socket.onopen = function (e) {
       console.log("[open] Connection established");
+      let my_string, result;
 
       socket.onmessage = (event) => {
-        console.log(event);
+        my_string = event.data;
+        result = my_string.split(",");
+        console.log(result);
+        document.getElementById("message").textContent = result[1];
       };
 
       socket.onclose = function (event) {
