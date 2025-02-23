@@ -5,20 +5,29 @@
 
     let email = $state("");
     let password = $state("");
+    let name = $state("");
     const onclick = () => {
-        const data = { email, password };
+        const data = { email, password, name };
         signup(data);
     };
 </script>
 
-<Nav />
+<Nav message="READY FOR" bold="AUTH" />
 <main>
-    <h1 class="head">WELCOME</h1>
+    <h1 class="head">SIGN UP</h1>
     <img src="/welcome.svg" alt="" class="cover" />
     <div class="form">
         <div class="form__line">
+            <label>NAME</label>
+            <input type="text" placeholder="Hari Narayan" bind:value={name} />
+        </div>
+        <div class="form__line">
             <label>EMAIL</label>
-            <input type="text" placeholder="hari@laddu.cc" bind:value={email} />
+            <input
+                type="email"
+                placeholder="hari@laddu.cc"
+                bind:value={email}
+            />
         </div>
         <div class="form__line">
             <label>PASSWORD</label>

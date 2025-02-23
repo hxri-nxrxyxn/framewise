@@ -14,8 +14,7 @@
     });
 </script>
 
-<Nav />
-
+<Nav message="READY TO" bold="LAUNCH" />
 <section>
     <!-- svelte-ignore a11y_distracting_elements -->
     <marquee scrollamount="12" behavior="scroll">

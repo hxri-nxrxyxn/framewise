@@ -1,10 +1,18 @@
 <script>
     import { handleBackButton, checkUser, logout } from "../../script";
+    import { onMount } from "svelte";
     import Nav from "$lib/Nav.svelte";
     handleBackButton("/");
+
+    let name;
+
+    onMount(async () => {
+        const data = await checkUser();
+        name = data.name;
+    });
 </script>
 
-<Nav />
+<Nav message="Hello" bold={name} />
 <section>
     <!-- svelte-ignore a11y_distracting_elements -->
     <marquee scrollamount="12" behavior="scroll">

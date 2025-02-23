@@ -1,4 +1,6 @@
 <script>
+    export let message;
+    export let bold;
     import { onMount } from "svelte";
     let animatedNav;
     onMount(() => {
@@ -9,7 +11,7 @@
 </script>
 
 <nav bind:this={animatedNav}>
-    <p>WEBSOCKET <b>CONNECTED</b></p>
+    <p>{message} <b>{bold}</b></p>
     <img src="/lock.svg" alt="hey" />
 </nav>
 
