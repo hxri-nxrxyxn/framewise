@@ -70,6 +70,69 @@ To get started with FrameWise, follow these steps:
         ```
     * This will build and deploy the application to your connected Android device or emulator.
 
+
+## 🧭 Navigating Around
+```
+.
+├── LICENSE
+├── README.md
+├── capacitor.config.json
+├── fastapi
+│   └── main.py
+├── goapi
+│   ├── controller
+│   │   └── UserFunctions.go
+│   ├── database
+│   │   └── postgres.go
+│   ├── go.mod
+│   ├── go.sum
+│   ├── main.go
+│   ├── models
+│   │   └── User.go
+│   └── routes
+│       └── UserRoutes.go
+├── jsconfig.json
+├── ml
+│   ├── data_collect_script.py
+│   ├── data_process_with_modeltrain.py
+│   ├── data_structure.py
+│   ├── detection_test.py
+│   ├── model_pose1.jpg
+│   ├── model_pose2.jpg
+│   ├── model_pose3.jpg
+│   ├── pose_collect_script.py
+│   └── virtual_cameraman_model.h5
+├── package-lock.json
+├── package.json
+├── src
+│   ├── app.css
+│   ├── app.html
+│   ├── lib
+│   │   └── Nav.svelte
+│   ├── routes
+│   │   ├── +layout.svelte
+│   │   ├── +page.js
+│   │   ├── +page.svelte
+│   │   ├── camera
+│   │   │   └── +page.svelte
+│   │   ├── home
+│   │   │   └── +page.svelte
+│   │   ├── login
+│   │   │   └── +page.svelte
+│   │   └── signup
+│   │       └── +page.svelte
+│   └── script.js
+├── static
+│   ├── favicon.png
+│   ├── lock.svg
+│   ├── login.svg
+│   ├── photoshoot.svg
+│   └── welcome.svg
+├── svelte.config.js
+├── tree
+└── vite.config.js
+
+```
 ## 🤝 Contributing
 
 We welcome contributions to FrameWise! If you'd like to contribute, please follow these guidelines:
