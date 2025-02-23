@@ -166,7 +166,7 @@ async function startCamera() {
   videoElement.style.width = "100%"; // Adjust size as needed
   videoElement.style.height = "100%"; // Adjust size as needed
 
-  document.querySelector(".polaroid__image").appendChild(videoElement); // Add to page
+  document.getElementById("image").appendChild(videoElement); // Add to page
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
