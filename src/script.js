@@ -1,6 +1,7 @@
 import { Storage } from "@capacitor/storage";
 import { App } from "@capacitor/app";
-const baseUrl = "https://api.laddu.cc/api/v1";
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
+const baseUrl = "https://api2.laddu.cc/api/v1";
 const socketUrl = "wss://api.laddu.cc/ws";
 import { goto } from "$app/navigation";
 let videoElement = null;
@@ -218,6 +219,21 @@ function cameraBack() {
   }
 }
 
+async function speakText(text) {
+  try {
+    await TextToSpeech.speak({
+      text: text,
+      lang: 'en-US', // Change language if needed
+      rate: 1.0,     // Speech speed (0.5 - 2.0)
+      pitch: 1.0,    // Pitch (0.5 - 2.0)
+      volume: 1.0,   // Volume (0.0 - 1.0)
+      category: 'ambient',
+    });
+  } catch (error) {
+    console.error('TTS Error:', error);
+  }
+}
+
 export {
   handleBackButton,
   checkUser,
@@ -230,4 +246,5 @@ export {
   sendToBackend,
   cameraBack,
   stopCamera,
+  speakText
 };
