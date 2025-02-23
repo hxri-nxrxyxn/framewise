@@ -134,7 +134,6 @@ function startWebsocket() {
       socket.onmessage = (event) => {
         my_string = event.data;
         result = my_string.split(",");
-        console.log(result);
         document.getElementById("message").textContent = result[1];
       };
 
@@ -158,15 +157,13 @@ function startWebsocket() {
 }
 
 async function startCamera() {
-  if (videoElement) return;
-
   videoElement = document.createElement("video");
   videoElement.autoplay = true;
   videoElement.playsInline = true; // Ensure iOS compatibility
   videoElement.style.width = "100%"; // Adjust size as needed
   videoElement.style.height = "100%"; // Adjust size as needed
 
-  document.body.appendChild(videoElement); // Add to page
+  document.getElementById("pimage").appendChild(videoElement); // Add to page
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
