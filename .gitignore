@@ -1,5 +1,6 @@
 node_modules
 ml/data
+fastapi/data
 
 # Output
 .output
