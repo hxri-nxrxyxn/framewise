@@ -62,7 +62,7 @@ model = build_model()
 model.summary()
 
 # model trained
-history = model.fit(X_train, y_train, epochs=30, validation_data=(X_test, y_test), batch_size=32)
+history = model.fit(X_train, y_train, epochs=35, validation_data=(X_test, y_test), batch_size=32)
 
 # model saved
 model.save("virtual_cameraman_model.h5")
