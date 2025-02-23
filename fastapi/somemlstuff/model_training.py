@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.ensemble import RandomForestClassifier
 import joblib
 
 # Load processed dataset
@@ -21,19 +22,14 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, 
 
 print(f"Training samples: {len(X_train)}, Testing samples: {len(X_test)}")
 
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
 
-model = LogisticRegression()
-model.fit(X_train, y_train)
+# Predict and evaluate
+y_pred_rf = rf_model.predict(X_test)
+accuracy_rf = accuracy_score(y_test, y_pred_rf)
 
-# Predict on test set
-y_pred = model.predict(X_test)
+print(f"Random Forest Accuracy: {accuracy_rf:.2f}")
+print(classification_report(y_test, y_pred_rf))
 
-# Evaluate accuracy
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy:.2f}")
-
-# Detailed report
-print(classification_report(y_test, y_pred))
-
-joblib.dump(model, "logistic_regression_model.pkl")
-joblib.dump(scaler, "scaler.pkl") 
+joblib.dump(rf_model, "face_pose_model.pkl")
