@@ -3,13 +3,10 @@ import numpy as np
 import tensorflow as tf
 import mediapipe as mp
 
-# Load the trained model
 model = tf.keras.models.load_model("virtual_cameraman_model.h5")
 
-# Categories used during training
 CATEGORIES = ["chin_down", "chin_up", "happy", "neutral", "sad", "smile"]
 
-# Score mapping for emotions
 emotion_scores = {
     "happy": 65,
     "sad": 15,
@@ -19,17 +16,20 @@ emotion_scores = {
     "smile": 25
 }
 
-# MediaPipe initialization
 mp_face_detection = mp.solutions.face_detection
 face_detection = mp_face_detection.FaceDetection(min_detection_confidence=0.5)
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose()
 
-# Dummy reference pose coordinates (normalized 0-1)
 REFERENCE_POSE = {
-    'LEFT_WRIST': [0.3, 0.8],  # Arm raised
-    'RIGHT_WRIST': [0.7, 0.8]   # Other arm raised
+    'LEFT_WRIST': [0.3, 0.8],  # left arm raised
+    'RIGHT_WRIST': [0.7, 0.8]   # hopefully right arm raised
 }
+def decode_base64_frame(encoded_str):
+    """Decodes a base64 image string into an OpenCV frame."""
+    img_data = base64.b64decode(encoded_str)
+    np_arr = np.frombuffer(img_data, np.uint8)
+    return cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
 def preprocess_frame(face_img):
     """Resize and normalize the face image for model prediction."""
@@ -69,7 +69,6 @@ def simple_pose_similarity(landmarks):
     """Dummy similarity calculation using wrist positions"""
     similarity = 0
     if landmarks:
-        # Get wrist positions
         lw = mp_pose.PoseLandmark.LEFT_WRIST.value
         rw = mp_pose.PoseLandmark.RIGHT_WRIST.value
         
@@ -88,8 +87,8 @@ def simple_pose_similarity(landmarks):
 
 def main():
     cap = cv2.VideoCapture(0)
-    selected_pose = False  # Flag for demo mode
-    h, w = 0, 0  # Frame dimensions
+    selected_pose = False  # for demo mode
+    h, w = 0, 0  #  dimensions
     
     if not cap.isOpened():
         print("Error: Could not open webcam.")
@@ -114,7 +113,7 @@ def main():
 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        # Face detection and emotion scoring
+        # detection and emotion scoring
         emotion_score = 0
         face_results = face_detection.process(frame_rgb)
         if face_results.detections:
@@ -142,23 +141,23 @@ def main():
                 cv2.putText(frame, f"{pred_label} ({emotion_score}): {feedback_text}", 
                            (x, y - 10), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 2)
 
-        # Pose analysis and demo comparison
+        # analysis and demo comparison
         posture_score = 0
         similarity = 0
         pose_results = pose.process(frame_rgb)
         if pose_results.pose_landmarks:
-            # Posture analysis
+            # analysis part for posture?
             posture_text, posture_score = analyze_posture(pose_results.pose_landmarks.landmark, frame)
             cv2.putText(frame, f"Posture: {posture_text} ({posture_score})", 
                        (50, 50), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 255), 2)
 
-            # Demo pose comparison
             if selected_pose:
                 similarity = simple_pose_similarity(pose_results.pose_landmarks.landmark)
                 cv2.putText(frame, f"Demo Pose Match: {int(similarity)}%", 
                            (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
                 
-                # Draw reference pose markers
+                # reference pose markers being drawn
+                
                 for point in REFERENCE_POSE.values():
                     cv2.circle(frame, (int(point[0]*w), int(point[1]*h)), 
                              10, (0, 0, 255), -1)
