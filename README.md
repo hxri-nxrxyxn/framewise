@@ -7,6 +7,11 @@ An AI-powered photography assistant that provides real-time voice-guided posing 
 
 ![Screenshot 2025-02-22 at 10 02 03 AM](https://github.com/user-attachments/assets/ce47f354-142b-495b-aa38-c1a1a363c811)
 
+![image](https://github.com/user-attachments/assets/1edf0996-145c-470b-aeb3-d307bc6e2281)
+
+![image](https://github.com/user-attachments/assets/6ef06054-9df3-4592-a4ce-c8f3692c6921)
+
+
 FrameWise is an AI-powered photography assistant that provides real-time pose guidance and automated capturing using a smartphone’s back camera. The system leverages computer vision and machine learning to analyze user posture, providing voice-guided adjustments for optimized framing before capturing an image.
 
 **Key Features:**
