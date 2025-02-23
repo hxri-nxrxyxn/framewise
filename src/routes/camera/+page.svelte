@@ -6,6 +6,7 @@
         sendToBackend,
         cameraBack,
         captureFrame,
+        speakText,
     } from "../../script";
     import { onMount } from "svelte";
     cameraBack();
@@ -68,7 +69,7 @@
     </div>
     <div class="shot__capture">
         <div class="shot__circle">
-            <div class="shot__circle--inner"></div>
+            <div class="shot__circle--inner" onclick={speakText}></div>
         </div>
     </div>
 </div>
