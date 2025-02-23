@@ -1,6 +1,8 @@
 node_modules
 ml/data
 fastapi/data
+fastapi/data_augmented
+fastapi/data_mesh
 
 # Output
 .output
