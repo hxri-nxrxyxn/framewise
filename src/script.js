@@ -23,7 +23,7 @@ function handleBackButton(fallbackUrl) {
     App.addListener("backButton", () => {
         const prevPage = sessionStorage.getItem("fallbackPage");
 
-        if (window.location.href !== "https://localhost/login") {
+        if (window.location.href !== "https://localhost/" && window.location.href !== "https://localhost/home") {
             goto(prevPage, { replaceState: true });
         } else {
             App.exitApp();
@@ -94,7 +94,7 @@ async function login(data) {
       return;
     }
     await setToken(res.token);
-    goto("/", { replaceState: true })
+    goto("/home", { replaceState: true })
   } catch (error) {
     console.log(error);
   }
@@ -189,7 +189,8 @@ function sendToBackend(base64String) {
     socket.send(base64String);
 } else {
     alert("Socket not connected");
-    goto("/", { replaceState: true }) 
+    goto("/", { replaceState: true })
+    return false;
 }
 }
 
