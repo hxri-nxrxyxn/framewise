@@ -11,8 +11,7 @@
     cameraBack();
 
     onMount(() => {
-        //startWebsocket();
-        //startCamera();
+        startWebsocket();
     });
 
     setInterval(async () => {
@@ -68,7 +67,7 @@
     </div>
     <div class="shot__capture">
         <div class="shot__circle">
-            <div class="shot__circle--inner"></div>
+            <div class="shot__circle--inner" onclick={startCamera}></div>
         </div>
     </div>
 </div>

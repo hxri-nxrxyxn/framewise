@@ -31,9 +31,10 @@
             <div class="button">CONTINUE</div>
         </a>
     </div>
-    <p class="tagline">made with love in India</p>
-    <img src="/photoshoot.svg" alt="" class="cover" />
+    <p class="tagline">Made with love in India <span>❤️</span></p>
 </main>
+
+<article></article>
 
 <style>
     section {
@@ -65,5 +66,8 @@
     }
     img.cover {
         width: 100vw;
+    }
+    p.tagline span {
+        font-style: initial;
     }
 </style>
