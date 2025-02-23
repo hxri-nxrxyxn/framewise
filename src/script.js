@@ -130,6 +130,10 @@ function startWebsocket() {
     socket.onopen = function (e) {
       alert("[open] Connection established");
 
+      socket.onmessage = (event) => {
+        alert("Received from server:"+ JSON.stringify(event.data)); // Receive message from server
+    };
+
       socket.onclose = function (event) {
         if (event.wasClean) {
           alert(
