@@ -3,13 +3,13 @@ import numpy as np
 import tensorflow as tf
 import mediapipe as mp
 
-# Load the trained emotion model
+# Load the trained model
 model = tf.keras.models.load_model("virtual_cameraman_model.h5")
 
 # Categories used during training
-CATEGORIES = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile"]
+CATEGORIES = ["chin_down", "chin_up", "happy", "neutral", "sad", "smile"]
 
-# Define score mapping for emotions
+# Score mapping for emotions
 emotion_scores = {
     "happy": 65,
     "sad": 15,
@@ -19,11 +19,17 @@ emotion_scores = {
     "smile": 25
 }
 
+# MediaPipe initialization
 mp_face_detection = mp.solutions.face_detection
 face_detection = mp_face_detection.FaceDetection(min_detection_confidence=0.5)
-
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose()
+
+# Dummy reference pose coordinates (normalized 0-1)
+REFERENCE_POSE = {
+    'LEFT_WRIST': [0.3, 0.8],  # Arm raised
+    'RIGHT_WRIST': [0.7, 0.8]   # Other arm raised
+}
 
 def preprocess_frame(face_img):
     """Resize and normalize the face image for model prediction."""
@@ -59,47 +65,31 @@ def analyze_posture(landmarks, frame):
     else:
         return "Loosen up!", 25
 
-class PoseComparator:
-    def __init__(self):
-        self.ref_poses = {}  # Format: {pose_id: normalized_keypoints}
+def simple_pose_similarity(landmarks):
+    """Dummy similarity calculation using wrist positions"""
+    similarity = 0
+    if landmarks:
+        # Get wrist positions
+        lw = mp_pose.PoseLandmark.LEFT_WRIST.value
+        rw = mp_pose.PoseLandmark.RIGHT_WRIST.value
         
-    def add_reference_pose(self, img_path, pose_id):
-        img = cv2.imread(img_path)
-        if img is None:
-            print(f"Error: Could not load {img_path}")
-            return
-        results = pose.process(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-        if results.pose_landmarks:
-            kp = self._normalize_landmarks(results.pose_landmarks.landmark)
-            self.ref_poses[pose_id] = kp
-            
-    def _normalize_landmarks(self, landmarks):
-        # converting landmarks to coordinates which are relative
-        kp = np.array([[lm.x, lm.y] for lm in landmarks])
-        # center around torso (shoulders and hips)
-        shoulder_hip_mean = np.mean(kp[[11, 12, 23, 24]], axis=0)
-        kp -= shoulder_hip_mean
-        # Scale to [-1, 1]
-        max_val = np.max(np.abs(kp))
-        if max_val > 0:
-            kp /= max_val
-        return kp
+        left_wrist = [landmarks[lw].x, landmarks[lw].y]
+        right_wrist = [landmarks[rw].x, landmarks[rw].y]
+
+        # Simple distance comparison
+        left_diff = np.linalg.norm(np.array(left_wrist) - np.array(REFERENCE_POSE['LEFT_WRIST']))
+        right_diff = np.linalg.norm(np.array(right_wrist) - np.array(REFERENCE_POSE['RIGHT_WRIST']))
+        
+        # Convert to similarity percentage (0-100)
+        similarity = 100 - ((left_diff + right_diff) * 50)
+        similarity = np.clip(similarity, 0, 100)
     
-    def compare_poses(self, user_kp, target_pose_id):
-        target_kp = self.ref_poses.get(target_pose_id)
-        if target_kp is None:
-            return 1.0  
-        return np.mean(np.abs(user_kp - target_kp))  # MAE
-    
+    return similarity
+
 def main():
     cap = cv2.VideoCapture(0)
-    pose_comparator = PoseComparator()
-    selected_pose = None  # 1, 2, or 3 for uploaded poses
-    POSE_OPTIONS = {
-        1: "model_pose1.jpg",
-        2: "model_pose2.jpg",
-        3: "model_pose3.jpg"
-    }
+    selected_pose = False  # Flag for demo mode
+    h, w = 0, 0  # Frame dimensions
     
     if not cap.isOpened():
         print("Error: Could not open webcam.")
@@ -111,15 +101,16 @@ def main():
             print("Error: Failed to capture frame.")
             break
         
+        # Get frame dimensions
+        h, w = frame.shape[:2]
+        
         # Handle key presses
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break
         elif key in [ord('1'), ord('2'), ord('3')]:
-            pose_id = int(chr(key))
-            pose_comparator.add_reference_pose(POSE_OPTIONS[pose_id], pose_id)
-            selected_pose = pose_id
-            print(f"Loaded Pose {pose_id}")
+            selected_pose = True
+            print("Demo pose comparison activated")
 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -129,7 +120,6 @@ def main():
         if face_results.detections:
             detection = face_results.detections[0]
             bboxC = detection.location_data.relative_bounding_box
-            h, w, _ = frame.shape
             x = int(bboxC.xmin * w)
             y = int(bboxC.ymin * h)
             box_width = int(bboxC.width * w)
@@ -137,10 +127,8 @@ def main():
 
             x = max(0, x)
             y = max(0, y)
-            if x + box_width > w:
-                box_width = w - x
-            if y + box_height > h:
-                box_height = h - y
+            box_width = min(box_width, w - x)
+            box_height = min(box_height, h - y)
 
             face_img = frame[y:y + box_height, x:x + box_width]
             if face_img.size > 0 and box_width >= 20 and box_height >= 20:
@@ -151,36 +139,34 @@ def main():
                 feedback_text = give_feedback(pred_label)
 
                 cv2.rectangle(frame, (x, y), (x + box_width, y + box_height), (255, 0, 0), 2)
-                cv2.putText(frame, f"{pred_label} ({emotion_score}): {feedback_text}", (x, y - 10),
-                            cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 2)
+                cv2.putText(frame, f"{pred_label} ({emotion_score}): {feedback_text}", 
+                           (x, y - 10), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 2)
 
-        # analysis for pose
+        # Pose analysis and demo comparison
         posture_score = 0
-        similarity = 0  # similarity initialisation
+        similarity = 0
         pose_results = pose.process(frame_rgb)
         if pose_results.pose_landmarks:
+            # Posture analysis
             posture_text, posture_score = analyze_posture(pose_results.pose_landmarks.landmark, frame)
-            cv2.putText(frame, f"Posture: {posture_text} ({posture_score})", (50, 50),
-                        cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(frame, f"Posture: {posture_text} ({posture_score})", 
+                       (50, 50), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 255), 2)
 
-            # comparison of pose
-            if selected_pose is not None:
-                user_kp = pose_comparator._normalize_landmarks(pose_results.pose_landmarks.landmark)
-                pose_error = pose_comparator.compare_poses(user_kp, selected_pose)
-                similarity = (1 - pose_error) * 100
-                cv2.putText(frame, f"Pose Match: {similarity:.1f}%", (50, 150),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
+            # Demo pose comparison
+            if selected_pose:
+                similarity = simple_pose_similarity(pose_results.pose_landmarks.landmark)
+                cv2.putText(frame, f"Demo Pose Match: {int(similarity)}%", 
+                           (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
                 
-                if similarity > 80:
-                    cv2.imwrite(f"capture_{selected_pose}.jpg", frame)
-
-            # Uncomment to draw pose landmarks:
-            # mp.solutions.drawing_utils.draw_landmarks(frame, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+                # Draw reference pose markers
+                for point in REFERENCE_POSE.values():
+                    cv2.circle(frame, (int(point[0]*w), int(point[1]*h)), 
+                             10, (0, 0, 255), -1)
 
         # Total Score Calculation  
         score = emotion_score + posture_score
         cv2.putText(frame, f"Total Score: {score}", (50, 100),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
         
         cv2.imshow("Virtual Cameraman", frame)
 
