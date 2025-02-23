@@ -59,13 +59,76 @@ To get started with FrameWise, follow these steps:
     npm install
     ```
 
-3.  **Run the development server:**
+1.  **Install `cloudflared`:**
+
+    * Follow the installation instructions for your operating system from the official Cloudflare documentation: [https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)
+
+2.  **Authenticate `cloudflared`:**
+
+    ```bash
+    cloudflared tunnel login
+    ```
+
+    This will open a browser window for authentication.
+
+3.  **Run the Go Server:**
+
+    ```bash
+    cd goapi && go run main.go
+    ```
+
+    This will start your Go server on port 8080.
+
+4.  **Run the Python Server:**
+
+    ```bash
+    cd fastapi && python3 main.py
+    ```
+
+    This will start your Python server on a default port. Note the port number.
+
+5.  **Run the Node.js Development Server:**
+
     ```bash
     npm run dev
     ```
-    This will start a development server for testing the application in a web browser.
 
-4.  **Deploy to an Android device or emulator:**
+    This will start your Node.js development server.
+
+6.  **Create Cloudflare Tunnels:**
+
+    * **For the Go server (8080):**
+
+        ```bash
+        cloudflared tunnel run --url localhost:8080
+        ```
+
+        This will output a `trycloudflare.com` URL (e.g., `https://random-string.trycloudflare.com`). Note this URL.
+
+    * **For the Python server (replace `<python_port>` with the actual port):**
+
+        ```bash
+        cloudflared tunnel run --url localhost:<python_port>
+        ```
+
+        This will output another `trycloudflare.com` URL. Note this URL.
+
+7.  **Update Application Configuration:**
+
+    * Replace the following in your application's configuration:
+        * `baseUrl`: The `trycloudflare.com` URL from the Go server tunnel, appended with `/api/v1` (e.g., `https://random-string.trycloudflare.com/api/v1`).
+        * `socketUrl`: The `trycloudflare.com` URL from the Python server tunnel, appended with `/ws` if it is a websocket (e.g., `wss://another-random-string.trycloudflare.com/ws`).
+
+    **Example:**
+
+    ```javascript
+    const baseUrl = "[https://random-string.trycloudflare.com/api/v1](https://random-string.trycloudflare.com/api/v1)";
+    const socketUrl = "wss://[another-random-string.trycloudflare.com/ws](https://www.google.com/search?q=https://another-random-string.trycloudflare.com/ws)";
+    ```
+* The configuration is located at `src/script.js`
+* These `trycloudflare.com` URLs are temporary.
+
+8.  **Deploy to an Android device or emulator:**
     * Ensure you have Android Studio and the Android SDK installed and configured.
     * Enable wireless debugging on your Android device or start an Android emulator.
     * Connect your device via wireless debugging, or use a running emulator.
