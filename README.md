@@ -44,6 +44,9 @@ FrameWise is an AI-powered photography assistant that provides real-time pose gu
 * [PostgreSQL](https://www.postgresql.org/)
 * [Android Text-to-Speech (TTS)](https://developer.android.com/reference/android/speech/tts/TextToSpeech)
 
+
+
+
 ## 🛠️ Getting Started
 
 To get started with FrameWise, follow these steps:
@@ -59,7 +62,7 @@ To get started with FrameWise, follow these steps:
     npm install
     ```
 
-1.  **Install `cloudflared`:**
+3.  **Install `cloudflared`:**
 
     * Follow the installation instructions for your operating system from the official Cloudflare documentation: [https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)
 
@@ -71,7 +74,7 @@ To get started with FrameWise, follow these steps:
 
     This will open a browser window for authentication.
 
-3.  **Run the Go Server:**
+4.  **Run the Go Server:**
 
     ```bash
     cd goapi && go run main.go
@@ -79,7 +82,7 @@ To get started with FrameWise, follow these steps:
 
     This will start your Go server on port 8080.
 
-4.  **Run the Python Server:**
+5.  **Run the Python Server:**
 
     ```bash
     cd fastapi && python3 main.py
@@ -87,7 +90,7 @@ To get started with FrameWise, follow these steps:
 
     This will start your Python server on a default port. Note the port number.
 
-5.  **Run the Node.js Development Server:**
+6.  **Run the Node.js Development Server:**
 
     ```bash
     npm run dev
@@ -95,7 +98,7 @@ To get started with FrameWise, follow these steps:
 
     This will start your Node.js development server.
 
-6.  **Create Cloudflare Tunnels:**
+7.  **Create Cloudflare Tunnels:**
 
     * **For the Go server (8080):**
 
@@ -113,7 +116,7 @@ To get started with FrameWise, follow these steps:
 
         This will output another `trycloudflare.com` URL. Note this URL.
 
-7.  **Update Application Configuration:**
+8.  **Update Application Configuration:**
 
     * Replace the following in your application's configuration:
         * `baseUrl`: The `trycloudflare.com` URL from the Go server tunnel, appended with `/api/v1` (e.g., `https://random-string.trycloudflare.com/api/v1`).
@@ -128,7 +131,7 @@ To get started with FrameWise, follow these steps:
 * The configuration is located at `src/script.js`
 * These `trycloudflare.com` URLs are temporary.
 
-8.  **Deploy to an Android device or emulator:**
+9.  **Deploy to an Android device or emulator:**
     * Ensure you have Android Studio and the Android SDK installed and configured.
     * Enable wireless debugging on your Android device or start an Android emulator.
     * Connect your device via wireless debugging, or use a running emulator.
@@ -217,6 +220,14 @@ Please ensure your code follows the project's coding style and includes appropri
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
+
+## ℹ️ Other Important Diagrams
+
+### Tech Stack
+![photo_2025-02-23 16 28 03-modified](https://github.com/user-attachments/assets/73c27ed5-b10f-40c7-9cdf-fbb57e6a5edc)
+
+### Activity Diagram
+![photo_2025-02-23 16 27 53-modified](https://github.com/user-attachments/assets/17979f9d-72b4-4647-9b57-2c00682045ed)
 
 ## Built for FOSSHack 2025  
 
