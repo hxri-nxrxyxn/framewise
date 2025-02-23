@@ -12,6 +12,7 @@
 
     onMount(() => {
         startWebsocket();
+        startCamera();
     });
 
     setInterval(async () => {
@@ -19,7 +20,7 @@
         if (base64Frame) {
             sendToBackend(base64Frame);
         }
-    }, 100);
+    }, 400);
 </script>
 
 <Nav message="WEBSOCKET" bold="READY" />
@@ -67,7 +68,7 @@
     </div>
     <div class="shot__capture">
         <div class="shot__circle">
-            <div class="shot__circle--inner" onclick={startCamera}></div>
+            <div class="shot__circle--inner"></div>
         </div>
     </div>
 </div>

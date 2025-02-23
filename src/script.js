@@ -2,39 +2,41 @@ import { Storage } from "@capacitor/storage";
 import { App } from "@capacitor/app";
 const baseUrl = "https://api.laddu.cc/api/v1";
 const socketUrl = "wss://api.laddu.cc/ws";
-import { goto } from '$app/navigation';
+import { goto } from "$app/navigation";
 let videoElement = null;
 let canvasElement = null;
 let ctx = null;
 let socket = null;
 
-
 async function setToken(token) {
-    await Storage.set({
-      key: "token",
-      value: token,
-    });
-  }
+  await Storage.set({
+    key: "token",
+    value: token,
+  });
+}
 
 function handleBackButton(fallbackUrl) {
-  if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+  if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
     sessionStorage.setItem("fallbackPage", fallbackUrl);
 
     App.addListener("backButton", () => {
-        const prevPage = sessionStorage.getItem("fallbackPage");
+      const prevPage = sessionStorage.getItem("fallbackPage");
 
-        if (window.location.href !== "https://localhost/" && window.location.href !== "https://localhost/home") {
-            goto(prevPage, { replaceState: true });
-        } else {
-            App.exitApp();
-        }
+      if (
+        window.location.href !== "https://localhost/" &&
+        window.location.href !== "https://localhost/home"
+      ) {
+        goto(prevPage, { replaceState: true });
+      } else {
+        App.exitApp();
+      }
     });
-} else {
-}
+  } else {
   }
+}
 
 async function checkUser() {
-  const { value }  = await Storage.get({ key: "token" });
+  const { value } = await Storage.get({ key: "token" });
   console.log(value);
   if (!value) {
     goto("login", { replaceState: true });
@@ -51,7 +53,7 @@ async function checkUser() {
   if (!response.ok) {
     alert(res.message);
     await logout();
-    goto("/login", { replaceState: true })
+    goto("/login", { replaceState: true });
     return;
   }
   const id = res.id;
@@ -72,7 +74,7 @@ async function checkUser() {
 async function logout() {
   try {
     await Storage.remove({ key: "token" });
-    goto("/login", { replaceState: true })
+    goto("/login", { replaceState: true });
   } catch (error) {
     console.error("Error:", error);
   }
@@ -94,7 +96,7 @@ async function login(data) {
       return;
     }
     await setToken(res.token);
-    goto("/home", { replaceState: true })
+    goto("/home", { replaceState: true });
   } catch (error) {
     console.log(error);
   }
@@ -116,57 +118,56 @@ async function signup(data) {
       return;
     }
     await setToken(res.token);
-    goto("/", { replaceState: true })
+    goto("/", { replaceState: true });
   } catch (error) {
     console.log(error);
   }
 }
 
 function startWebsocket() {
-  try{
+  try {
     socket = new WebSocket(socketUrl);
     socket.onopen = function (e) {
       alert("[open] Connection established");
-  
+
       socket.onclose = function (event) {
         if (event.wasClean) {
-          alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+          alert(
+            `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,
+          );
         } else {
           alert("[close] Connection died");
         }
       };
-  
+
       socket.onerror = function (error) {
         alert(`[error] ${error.message}`);
       };
-    }
-  }
-  catch(error){
+    };
+  } catch (error) {
     alert("Error accessing WebSocket " + error);
   }
-
-
 }
 
 async function startCamera() {
-
-  if (videoElement) return; 
+  if (videoElement) return;
 
   videoElement = document.createElement("video");
   videoElement.autoplay = true;
   videoElement.playsInline = true; // Ensure iOS compatibility
   videoElement.style.width = "100%"; // Adjust size as needed
+  videoElement.style.height = "100%"; // Adjust size as needed
 
-  document.body.appendChild(videoElement); // Add to page
+  document.querySelector(".polaroid__image").appendChild(videoElement); // Add to page
 
   try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoElement.srcObject = stream;
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    videoElement.srcObject = stream;
 
-      canvasElement = document.createElement("canvas");
-        ctx = canvasElement.getContext("2d");
+    canvasElement = document.createElement("canvas");
+    ctx = canvasElement.getContext("2d");
   } catch (error) {
-      console.error("Error accessing camera:", error);
+    console.error("Error accessing camera:", error);
   }
 }
 
@@ -181,39 +182,51 @@ async function captureFrame() {
   ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
 
   // Convert to Base64
-  return canvasElement.toDataURL("image/jpeg",0.5); // or "image/png"
+  return canvasElement.toDataURL("image/jpeg", 0.5); // or "image/png"
 }
 
 function sendToBackend(base64String) {
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(base64String);
-} else {
+  } else {
     alert("Socket not connected");
-    goto("/", { replaceState: true })
+    goto("/", { replaceState: true });
     return false;
-}
+  }
 }
 
 function stopCamera() {
   if (stream) {
-      stream.getTracks().forEach(track => track.stop()); // Stop all camera tracks
+    stream.getTracks().forEach((track) => track.stop()); // Stop all camera tracks
   }
 
   if (videoElement) {
-      videoElement.remove(); // Remove the video from the page
-      videoElement = null; // Reset variable
-      stream = null; // Reset stream
+    videoElement.remove(); // Remove the video from the page
+    videoElement = null; // Reset variable
+    stream = null; // Reset stream
   }
 }
 
 function cameraBack() {
-  if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
-
-  App.addListener("backButton", () => {
+  if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+    App.addListener("backButton", () => {
       const prevPage = sessionStorage.getItem("fallbackPage");
-    stopCamera();
-  });
-} else {
-}}
+      stopCamera();
+    });
+  } else {
+  }
+}
 
-export { handleBackButton , checkUser, logout, login, signup, startWebsocket, startCamera, captureFrame, sendToBackend, cameraBack, stopCamera };
+export {
+  handleBackButton,
+  checkUser,
+  logout,
+  login,
+  signup,
+  startWebsocket,
+  startCamera,
+  captureFrame,
+  sendToBackend,
+  cameraBack,
+  stopCamera,
+};
