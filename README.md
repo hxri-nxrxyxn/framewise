@@ -2,7 +2,7 @@
 
 An AI-powered photography assistant that provides real-time voice-guided posing instructions 🗣️ and automated capturing 🤖 using a smartphone’s back camera 📱, ensuring well-composed shots 🖼️ without a photographer.
 
-https://github.com/hxri-nxrxyxn/framewise/releases/tag/v0.9
+[Install APK](https://github.com/hxri-nxrxyxn/framewise/releases/tag/v0.9)
 
 ## ℹ️ Project Overview
 
