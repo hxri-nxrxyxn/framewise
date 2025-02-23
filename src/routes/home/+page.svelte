@@ -55,4 +55,7 @@
         font-style: italic;
         font-weight: 100;
     }
+    img.cover {
+        width: 100vw;
+    }
 </style>
