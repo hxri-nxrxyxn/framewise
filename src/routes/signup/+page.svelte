@@ -1,6 +1,6 @@
 <script>
     import { handleBackButton, signup } from "../../script";
-
+    import Nav from "$lib/Nav.svelte";
     handleBackButton("/");
 
     let email = $state("");
@@ -11,10 +11,7 @@
     };
 </script>
 
-<nav>
-    <p>FRAMEWISE</p>
-    <img src="/lock.svg" alt="hey" />
-</nav>
+<Nav />
 <main>
     <h1 class="head">WELCOME</h1>
     <img src="/welcome.svg" alt="" class="cover" />
@@ -30,6 +27,7 @@
     </div>
 
     <div class="buttons">
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div class="button" {onclick}>CONTINUE</div>
     </div>
 </main>

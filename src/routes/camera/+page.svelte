@@ -1,28 +1,30 @@
 <script>
-  import {
-    startWebsocket,
-    startCamera,
-    sendToBackend,
-    cameraBack,
-    captureFrame,
-  } from "../../script";
-  import { onMount } from "svelte";
-  cameraBack();
+    import {
+        startWebsocket,
+        startCamera,
+        sendToBackend,
+        cameraBack,
+        captureFrame,
+    } from "../../script";
+    import { onMount } from "svelte";
+    cameraBack();
 
-  onMount(() => {
-    startWebsocket();
-    startCamera();
-  });
+    onMount(() => {
+        startWebsocket();
+        startCamera();
+    });
 
-  setInterval(async () => {
-    const base64Frame = await captureFrame();
-    if (base64Frame) {
-      sendToBackend(base64Frame);
-    }
-  }, 100);
+    setInterval(async () => {
+        const base64Frame = await captureFrame();
+        if (base64Frame) {
+            sendToBackend(base64Frame);
+        }
+    }, 100);
+    import Nav from "$lib/Nav.svelte";
 </script>
 
-<main>Camera</main>
+<Nav />
+<main></main>
 
 <style>
 </style>

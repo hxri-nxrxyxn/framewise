@@ -1,12 +1,21 @@
 <script>
+    import { onMount } from "svelte";
     import { handleBackButton, checkUser, logout } from "../script";
+    import { fade, fly } from "svelte/transition";
+    import Nav from "$lib/Nav.svelte";
     handleBackButton("/");
+
+    let animatedElement;
+
+    onMount(() => {
+        if (animatedElement) {
+            animatedElement.classList.add("animate--fx");
+        }
+    });
 </script>
 
-<nav>
-    <p>WEBSOCKET <b>CONNECTED</b></p>
-    <img src="/lock.svg" alt="hey" />
-</nav>
+<Nav />
+
 <section>
     <!-- svelte-ignore a11y_distracting_elements -->
     <marquee scrollamount="12" behavior="scroll">
@@ -19,19 +28,20 @@
         <h1 class="marquee">SHOTS THAT MAKE THE MEMORIES</h1>
     </marquee>
 </section>
+
 <main>
     <div class="buttons">
         <a href="/camera">
-            <div class="button">TRY</div>
+            <div class="button button--orange">TRY</div>
         </a>
         <a href="/login">
             <div class="button">
                 LOGIN
-                <span>FX</span>
+                <span bind:this={animatedElement}>FX</span>
             </div>
         </a>
     </div>
-    <p class="tagline">made with love in India</p>
+    <p class="tagline">Made with love in <span>India</span></p>
     <img src="/photoshoot.svg" alt="" class="cover" />
 </main>
 
@@ -48,20 +58,16 @@
     section h1.marquee {
         color: var(--color-grey);
     }
-    .button:first-child {
-        background: var(--color-primary);
-        color: white;
-    }
     .button span {
         position: absolute;
         right: -0.75rem;
         top: -0.5rem;
-        transform: rotate(3deg);
         background: var(--color-secondary);
         padding: 0.15rem 1rem;
         font-weight: 600;
         font-size: 0.75rem;
         border: 1px solid var(--color-border);
+        color: var(--color-grey);
     }
     p.tagline {
         text-align: center;

@@ -1,6 +1,6 @@
 <script>
     import { handleBackButton, login } from "../../script";
-
+    import Nav from "$lib/Nav.svelte";
     let email = $state("");
     let password = $state("");
 
@@ -12,10 +12,7 @@
     };
 </script>
 
-<nav>
-    <p>FRAMEWISE</p>
-    <img src="/lock.svg" alt="hey" />
-</nav>
+<Nav />
 <main>
     <h1 class="head">WELCOME</h1>
     <img src="/login.svg" alt="" class="cover" />

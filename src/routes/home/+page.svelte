@@ -1,12 +1,10 @@
 <script>
     import { handleBackButton, checkUser, logout } from "../../script";
+    import Nav from "$lib/Nav.svelte";
     handleBackButton("/");
 </script>
 
-<nav>
-    <p>WEBSOCKET <b>CONNECTED</b></p>
-    <img src="/lock.svg" alt="hey" />
-</nav>
+<Nav />
 <section>
     <!-- svelte-ignore a11y_distracting_elements -->
     <marquee scrollamount="12" behavior="scroll">
@@ -56,5 +54,8 @@
         font-family: Baskervville;
         font-style: italic;
         font-weight: 100;
+    }
+    img.cover {
+        width: 100vw;
     }
 </style>
