@@ -1,5 +1,12 @@
 <script>
-    import "../app.css"; // Your global CSS
+    import "../app.css";
+    import { slide } from "svelte/transition";
+    import { page } from "$app/stores";
+    import { quintOut } from "svelte/easing";
 </script>
 
-<slot />
+{#key $page.url.pathname}
+    <div>
+        <slot />
+    </div>
+{/key}
