@@ -1,6 +1,9 @@
 <script>
     export let message;
     export let bold;
+
+    // we can fetch error statuses and custom response with messages
+    // animatedNav also adds a unique touch
     import { onMount } from "svelte";
     let animatedNav;
     onMount(() => {
