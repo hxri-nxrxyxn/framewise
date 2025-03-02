@@ -86,7 +86,8 @@ To get started with FrameWise, follow these steps:
 5.  **Run the Python Server:**
 
     ```bash
-    cd fastapi && python3 main.py
+    pip install tensorflow uvicorn
+    cd fastapi && uvicorn run main:app --host 0.0.0.0 --port 8000
     ```
 
     This will start your Python server on a default port. Note the port number.
@@ -112,7 +113,7 @@ To get started with FrameWise, follow these steps:
     * **For the Python server (replace `<python_port>` with the actual port):**
 
         ```bash
-        cloudflared tunnel run --url localhost:<python_port>
+        cloudflared tunnel run --url localhost:8000
         ```
 
         This will output another `trycloudflare.com` URL. Note this URL.
