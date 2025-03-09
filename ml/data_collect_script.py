@@ -1,38 +1,45 @@
+import cv2
 import os
-import shutil
-from sklearn.model_selection import train_test_split
 
-OLD_DATA_DIR = "data_old"  
-NEW_DATA_DIR = "data"      
-CATEGORIES = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile"]  
+categories = ["happy", "sad", "neutral", "chin_up", "chin_down", "smile"] #categories for data collection
 
-os.makedirs(f"{NEW_DATA_DIR}/train", exist_ok=True)
-os.makedirs(f"{NEW_DATA_DIR}/validation", exist_ok=True)
+for category in categories:
+    os.makedirs(f"data/{category}", exist_ok=True)
 
-for category in CATEGORIES:
-    os.makedirs(f"{NEW_DATA_DIR}/train/{category}", exist_ok=True)
-    os.makedirs(f"{NEW_DATA_DIR}/validation/{category}", exist_ok=True)
+cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    print("Error: Could not open webcam.")
+    exit()
 
-    img_dir = os.path.join(OLD_DATA_DIR, category)
-    if not os.path.exists(img_dir):
-        print(f"Warning: {img_dir} does not exist. Skipping.")
-        continue
+print("Press the corresponding key to label and save an image:")
+print("h - Happy, s - Sad, n - Neutral, u - Chin Up, d - Chin Down, m - Smile, x - No Smile, q - Quit")
 
-    imgs = [img for img in os.listdir(img_dir) if img.lower().endswith(('.png', '.jpg', '.jpeg'))]
-    if not imgs:
-        print(f"Warning: No images found in {img_dir}. Skipping.")
-        continue
+counter = {cat: 0 for cat in categories}  #image count being tracked
 
-    train_imgs, val_imgs = train_test_split(imgs, test_size=0.2, random_state=42)
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Error: Failed to capture frame.")
+        break
 
-    for img in train_imgs:
-        src = os.path.join(OLD_DATA_DIR, category, img)
-        dst = os.path.join(NEW_DATA_DIR, "train", category, img)
-        shutil.copy(src, dst)
+    cv2.imshow("Press a key to label the image", frame)
+    
+    key = cv2.waitKey(1) & 0xFF
 
-    for img in val_imgs:
-        src = os.path.join(OLD_DATA_DIR, category, img)
-        dst = os.path.join(NEW_DATA_DIR, "validation", category, img)
-        shutil.copy(src, dst)
+    if key == ord('q'):  
+        break
 
-print("Dataset restructuring complete!")
+    key_map = {
+        'h': "happy", 's': "sad", 'n': "neutral",
+        'u': "chin_up", 'd': "chin_down", 'm': "smile", 'x': "no_smile"
+    }
+
+    if chr(key) in key_map:
+        category = key_map[chr(key)]
+        img_path = f"data/{category}/{counter[category]}.jpg"
+        cv2.imwrite(img_path, frame)
+        counter[category] += 1
+        print(f"Saved: {img_path}")
+
+cap.release()
+cv2.destroyAllWindows()
