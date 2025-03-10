@@ -2,7 +2,7 @@
 
 An AI-powered photography assistant that provides real-time voice-guided posing instructions 🗣️ and automated capturing 🤖 using a smartphone’s back camera 📱, ensuring well-composed shots 🖼️ without a photographer.
 
-[Install APK](https://github.com/hxri-nxrxyxn/framewise/releases/tag/v0.9)
+[Install APK](https://github.com/hxri-nxrxyxn/framewise/releases/tag/1.0-alpha)
 
 ## ℹ️ Project Overview
 
@@ -75,7 +75,7 @@ To get started with FrameWise, follow these steps:
 
     This will open a browser window for authentication.
 
-4.  **Run the Go Server:**
+4.  ~~Run the Go Server:~~
 
     ```bash
     cd goapi && go run main.go
@@ -86,8 +86,8 @@ To get started with FrameWise, follow these steps:
 5.  **Run the Python Server:**
 
     ```bash
-    pip install tensorflow uvicorn
-    cd fastapi && uvicorn run main:app --host 0.0.0.0 --port 8000
+    pip install uvicorn fastapi cv2 numpy asyncio
+    cd fastapi && uvicorn main:app --host 0.0.0.0 --port 8000
     ```
 
     This will start your Python server on a default port. Note the port number.
@@ -102,7 +102,7 @@ To get started with FrameWise, follow these steps:
 
 7.  **Create Cloudflare Tunnels:**
 
-    * **For the Go server (8080):**
+    * ~~For the Go server (8080):~~
 
         ```bash
         cloudflared tunnel run --url localhost:8080
@@ -121,13 +121,11 @@ To get started with FrameWise, follow these steps:
 8.  **Update Application Configuration:**
 
     * Replace the following in your application's configuration:
-        * `baseUrl`: The `trycloudflare.com` URL from the Go server tunnel, appended with `/api/v1` (e.g., `https://random-string.trycloudflare.com/api/v1`).
         * `socketUrl`: The `trycloudflare.com` URL from the Python server tunnel, appended with `/ws` if it is a websocket (e.g., `wss://another-random-string.trycloudflare.com/ws`).
 
     **Example:**
 
     ```javascript
-    const baseUrl = "[https://random-string.trycloudflare.com/api/v1](https://random-string.trycloudflare.com/api/v1)";
     const socketUrl = "wss://[another-random-string.trycloudflare.com/ws](https://www.google.com/search?q=https://another-random-string.trycloudflare.com/ws)";
     ```
 * The configuration is located at `src/script.js`
