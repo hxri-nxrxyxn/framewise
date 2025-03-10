@@ -3,6 +3,7 @@ ml/data
 fastapi/data
 fastapi/data_augmented
 fastapi/data_mesh
+fastapi/data_mesh_augmented
 
 # Output
 .output
