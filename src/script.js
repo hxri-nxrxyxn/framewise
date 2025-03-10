@@ -1,6 +1,6 @@
 import { Storage } from "@capacitor/storage";
 import { App } from "@capacitor/app";
-import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { TextToSpeech } from "@capacitor-community/text-to-speech";
 const baseUrl = "https://api2.laddu.cc/api/v1";
 const socketUrl = "wss://api.laddu.cc/ws";
 import { goto } from "$app/navigation";
@@ -136,6 +136,7 @@ function startWebsocket() {
         my_string = event.data;
         result = my_string.split(",");
         document.getElementById("message").textContent = result[1];
+        speakText(result[1]);
       };
 
       socket.onclose = function (event) {
@@ -223,14 +224,14 @@ async function speakText(text) {
   try {
     await TextToSpeech.speak({
       text: text,
-      lang: 'en-US', // Change language if needed
-      rate: 1.0,     // Speech speed (0.5 - 2.0)
-      pitch: 1.0,    // Pitch (0.5 - 2.0)
-      volume: 1.0,   // Volume (0.0 - 1.0)
-      category: 'ambient',
+      lang: "en-US", // Change language if needed
+      rate: 1.0, // Speech speed (0.5 - 2.0)
+      pitch: 1.0, // Pitch (0.5 - 2.0)
+      volume: 1.0, // Volume (0.0 - 1.0)
+      category: "ambient",
     });
   } catch (error) {
-    console.error('TTS Error:', error);
+    console.error("TTS Error:", error);
   }
 }
 
@@ -246,5 +247,5 @@ export {
   sendToBackend,
   cameraBack,
   stopCamera,
-  speakText
+  speakText,
 };

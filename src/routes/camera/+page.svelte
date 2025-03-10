@@ -11,6 +11,8 @@
     import { onMount } from "svelte";
     cameraBack();
 
+    const onclick = () => {};
+
     onMount(() => {
         startWebsocket();
         startCamera();
@@ -21,7 +23,7 @@
         if (base64Frame) {
             sendToBackend(base64Frame);
         }
-    }, 400);
+    }, 4000);
 </script>
 
 <Nav message="WEBSOCKET" bold="READY" />
@@ -69,7 +71,7 @@
     </div>
     <div class="shot__capture">
         <div class="shot__circle">
-            <div class="shot__circle--inner" onclick={speakText}></div>
+            <div class="shot__circle--inner" {onclick}></div>
         </div>
     </div>
 </div>

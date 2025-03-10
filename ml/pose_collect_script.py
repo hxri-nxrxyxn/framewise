@@ -14,38 +14,41 @@ pose = mp_pose.Pose()
 mp_drawing = mp.solutions.drawing_utils
 
 def capture_pose_data(output_csv='pose_data.csv'):
-    cap = cv2.VideoCapture(0)
-    data = []
+    cap = cv2.VideoCapture(1)
     
-    with open(output_csv, mode='w', newline='') as file:
-        writer = csv.writer(file)
+    file_exists = os.path.exists(output_csv)
+    file = open(output_csv, mode='a', newline='')  
+    writer = csv.writer(file)
+    
+    if not file_exists:  
         writer.writerow([f'kp_{i}' for i in range(33*4)] + ['label'])
-        
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-            
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = pose.process(frame_rgb)
-            
-            keypoints = []
-            if results.pose_landmarks:
-                for landmark in results.pose_landmarks.landmark:
-                    keypoints.extend([landmark.x, landmark.y, landmark.z, landmark.visibility])
-                
-                label = input("Enter label for current pose: ")
-                writer.writerow(keypoints + [label])
-                mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-            
-            
-            cv2.imshow('Pose Detection', frame)
-            
-            if cv2.waitKey(10) & 0xFF == ord('q'):
-                break
     
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = pose.process(frame_rgb)
+        
+        keypoints = []
+        if results.pose_landmarks:
+            for landmark in results.pose_landmarks.landmark:
+                keypoints.extend([landmark.x, landmark.y, landmark.z, landmark.visibility])
+            
+            label = input("Enter label for current pose: ")
+            writer.writerow(keypoints + [label])
+            mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        
+        cv2.imshow('Pose Detection', frame)
+        
+        if cv2.waitKey(10) & 0xFF == ord('q'):
+            break
+
+    file.close()  
     cap.release()
     cv2.destroyAllWindows()
+
 
 def train_model(csv_file='pose_data.csv', model_save_path='pose_model.h5'):
     data = np.loadtxt(csv_file, delimiter=',', skiprows=1)
