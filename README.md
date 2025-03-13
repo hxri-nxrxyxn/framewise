@@ -46,6 +46,8 @@ FrameWise is an AI-powered photography assistant that provides real-time pose gu
 * [Android Text-to-Speech (TTS)](https://developer.android.com/reference/android/speech/tts/TextToSpeech)
 
 
+## 🎥 Demo
+[![Watch the video](https://img.youtube.com/vi/HKYYfDSILvU/maxresdefault.jpg)](https://youtu.be/HKYYfDSILvU)
 
 
 ## 🛠️ Getting Started
